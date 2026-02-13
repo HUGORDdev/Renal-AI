@@ -1,0 +1,18 @@
+{
+    "devCommand": "uvicorn app.main:app --reload",
+    "builds": [
+        {
+            "src": "app/main.py",
+            "use": "@vercel/python",
+            "config": {
+                "runtime": "python3.9"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "app/main.py"
+        }
+    ]
+}

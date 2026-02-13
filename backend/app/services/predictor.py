@@ -6,7 +6,19 @@ from pathlib import Path
 
 class Predictor:
     def __init__(self):
+        # 1. Tenter le chargement depuis le dossier source (Dev / Prod classique)
         assets_path = Path(__file__).parent.parent.parent / "model_assets"
+        
+        # 2. Fallback pour Vercel / Read-only env (chargé dans /tmp par model_loader)
+        if not (assets_path / "model.joblib").exists():
+            print("⚠️ Modèles non trouvés dans source, vérification de /tmp/model_assets...")
+            assets_path = Path("/tmp/model_assets")
+        
+        if not (assets_path / "model.joblib").exists():
+             print("❌ CRITIQUE : Modèles introuvables. L'API ne pourra pas prédire.")
+             self.model = None
+             return
+
         self.model = joblib.load(assets_path / "model.joblib")
         self.scaler = joblib.load(assets_path / "scaler.joblib")
         self.target_encoder = joblib.load(assets_path / "target_encoder.joblib")

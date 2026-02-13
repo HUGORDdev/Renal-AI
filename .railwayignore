@@ -1,0 +1,25 @@
+# Railway Ignore
+# On ignore tout le frontend car Railway ne sert que l'API Backend
+frontend/
+frontend_streamlit/
+
+# Environnements virtuels & Dépendances
+venv/
+.venv/
+env/
+node_modules/
+**/node_modules/
+
+# Git
+.git/
+
+# Cache & Build
+__pycache__/
+*.pyc
+.next/
+dist/
+build/
+
+# Modèles lourds (puisqu'on les télécharge depuis HF au démarrage)
+backend/model_assets/*.joblib
+models/model_artifacts/*.joblib

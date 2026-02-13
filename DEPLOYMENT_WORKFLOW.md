@@ -37,11 +37,11 @@ Un workflow `.github/workflows/model_pipline.yml` se déclenche automatiquement.
     *   *Résultat* : Génère les nouveaux `.joblib` dans `backend/model_assets/`.
 4.  **Upload Hugging Face** : Exécute `python scripts/upload_models.py`.
     *   *Résultat* : Les nouveaux modèles sont envoyés sur votre repo Hugging Face.
-5.  **Trigger Railway** : Déploie via Railway CLI ou Webhook.
-    *   *Résultat* : Railway redémarre le backend.
+5.  **Trigger Vercel Hook** : Déclenche le redéploiement du backend sur Vercel.
+    *   *Résultat* : Le backend redémarre et télécharge les nouveaux modèles.
 
-### Étape 3 : Redémarrage Backend (Railway) ⚡
-1.  Railway détecte le commit/webhook et redémarre le service.
+### Étape 3 : Vérification ⚡
+Une fois le déploiement Vercel terminé (quelques secondes), le backend utilise la nouvelle version de vos modèles !
 2.  Au démarrage (`main.py`), le script `model_loader.py` s'exécute.
 3.  Il télécharge les **derniers modèles** depuis Hugging Face Hub.
 4.  L'API est prête avec la nouvelle version du modèle !

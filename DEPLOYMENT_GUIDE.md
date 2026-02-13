@@ -1,18 +1,25 @@
 # Deploy Guide: Railway (Backend) & Vercel (Frontend)
 
-## 1️⃣ Backend (Railway) 🚂
-Votre backend FastAPI sera hébergé sur Railway.
+## 1️⃣ Backend (Vercel) ▲
+Votre backend FastAPI sera hébergé sur Vercel (via Serverless Functions).
 
-1.  Allez sur [Railway.app](https://railway.app) et connectez-vous avec GitHub.
-2.  Cliquez sur **"New Project"** > **"Deploy from GitHub repo"**.
-3.  Sélectionnez votre repo `Bootcamp-AMA`.
-4.  Une fois le projet créé, allez dans **Settings** > **Variables** et ajoutez :
+1.  Allez sur [Vercel.com](https://vercel.com) et connectez-vous.
+2.  **Add New...** > **Project** > Importez `Bootcamp-AMA`.
+3.  **Configuration du Projet** :
+    *   **Framework Preset**: Other
+    *   **Root Directory**: `backend` (Cliquez sur Edit à côté de Root Directory).
+4.  **Environment Variables** :
     *   `HF_TOKEN`: Votre token Hugging Face (Write).
-    *   `PORT`: `8000` (Railway le détecte souvent, mais bon à savoir).
-5.  Allez dans **Settings** > **General** > **Root Directory** et mettez `/` (par défaut).
-    *   *Note :* Railway utilisera le fichier `nixpacks.toml` à la racine pour savoir comment lancer l'app.
-6.  Une fois déployé, Railway vous donnera une URL publique (ex: `https://bootcamp-ama-production.up.railway.app`).
-    *   **Copiez cette URL.**
+5.  **Deploy**.
+
+### Automatisation (Deploy Hook) 🪝
+Pour que le backend se redéploie automatiquement après un ré-entraînement du modèle :
+
+1.  Allez dans **Settings** (du projet Backend) > **Git** > **Deploy Hooks**.
+2.  Créez un hook nommé `GitHub Actions`.
+3.  Copiez l'URL (ex: `https://api.vercel.com/v1/integrations/deploy/prj_.../hook_...`).
+4.  Allez sur GitHub > Settings > Secrets > Actions.
+5.  Ajoutez un secret `VERCEL_DEPLOY_HOOK` avec cette URL.
 
 ## 2️⃣ Frontend (Vercel) ▲
 Votre frontend Next.js sera hébergé sur Vercel.

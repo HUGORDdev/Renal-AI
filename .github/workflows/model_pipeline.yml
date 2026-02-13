@@ -44,13 +44,15 @@ jobs:
       run: |
         python scripts/upload_models.py
 
-    # Étape 5 : Trigger Railway Deploy
-    - name: Install Railway CLI
-      run: npm install -g @railway/cli
-
-    - name: Deploy to Railway
+    # Étape 5 : Trigger Vercel Redeploy (Backend)
+    - name: Trigger Vercel Deploy
       if: success()
       env:
-        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       run: |
-        railway up --service backend --detach
+        if [ -n "$VERCEL_DEPLOY_HOOK" ]; then
+          echo "🚀 Triggering Vercel deployment..."
+          curl -X POST "$VERCEL_DEPLOY_HOOK"
+        else
+          echo "⚠️ VERCEL_DEPLOY_HOOK secret is missing. Skipping auto-deploy."
+        fi
