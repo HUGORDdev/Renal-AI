@@ -14,5 +14,12 @@
             "src": "/(.*)",
             "dest": "app/main.py"
         }
-    ]
+    ],
+    "functions": {
+    "backend/**": {                          
+      "excludeFiles": "{.next,.vercel,public,app,node_modules,__pycache__,*.pyc,tests/**,docs/**,examples/**}/**"
+    }
+  }
 }
+    
+
