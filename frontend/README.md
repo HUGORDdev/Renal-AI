@@ -63,4 +63,4 @@ Ce projet utilise les données de santé anonymisées provenant du dataset du **
 > CKD-Predict est un outil d'aide à la décision et ne remplace en aucun cas l'expertise clinique d'un médecin néphrologue.
 
 ---
-*Réalisé avec ❤️ pour le Hackathon IA - Cohorte 1 AMA (Advanced Medical AI).*
+*Réalisé avec ❤️ pour le Hackathon IA - Cohorte 1 AMA .*
