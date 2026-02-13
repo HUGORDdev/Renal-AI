@@ -1,25 +1,15 @@
 {
-    "devCommand": "uvicorn app.main:app --reload",
-    "builds": [
-        {
-            "src": "app/main.py",
-            "use": "@vercel/python",
-            "config": {
-                "runtime": "python3.9"
-            }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "app/main.py"
-        }
-    ],
-    "functions": {
-    "backend/**": {                          
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "devCommand": "uvicorn app.main:app --reload --host 0.0.0.0 --port $PORT",
+  "functions": {
+    "backend/**": {
       "excludeFiles": "{.next,.vercel,public,app,node_modules,__pycache__,*.pyc,tests/**,docs/**,examples/**}/**"
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "backend/app/main.py"
+    }
+  ]
 }
-    
-
