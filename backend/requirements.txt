@@ -1,3 +1,11 @@
+# Versions forcées pour compatibilité Python 3.12 + Vercel
+numba>=0.59.0
+llvmlite>=0.42.0
+shap>=0.46.0   # ou la version que tu veux, mais >=0.46.0 devrait tirer un numba récent
+
+# Si tu as une version exacte de shap ou numba, remplace par :
+# shap==0.46.0  → mieux : shap>=0.46.0
+# numba==0.53.1 → à supprimer ou remplacer par >=0.59.0
 fastapi
 pydantic
 pandas
@@ -6,6 +14,5 @@ joblib
 numpy
 python-multipart
 google-generativeai
-shap
 matplotlib
 seaborn
