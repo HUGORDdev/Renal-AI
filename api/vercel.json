@@ -1,13 +1,7 @@
 {
   "functions": {
-    "backend/**": {
-      "excludeFiles": "{.next,.vercel,public,app,node_modules,__pycache__,*.pyc,tests/**,docs/**,examples/**}/**"
+    "api/**/*.py": {
+      "excludeFiles": "{.next,.vercel,public,frontend/**,node_modules,__pycache__,*.pyc,tests/**,docs/**,examples/**}/**"
     }
-  },
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "api/app/main.py"
-    }
-  ]
+  }
 }
