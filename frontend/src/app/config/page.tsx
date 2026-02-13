@@ -18,7 +18,7 @@ export default function ConfigPage() {
                 <ConfigCard
                     icon={<Server className="text-primary" />}
                     title="Endpoint Backend"
-                    value="http://localhost:8000"
+                    value={process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}
                     status="Connecté"
                 />
                 <ConfigCard

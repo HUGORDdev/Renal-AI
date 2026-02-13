@@ -62,7 +62,7 @@ export default function PredictPage() {
     const handleSubmit = async () => {
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:8000/predict', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/predict`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)

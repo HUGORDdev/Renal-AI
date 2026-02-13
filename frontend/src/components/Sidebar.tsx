@@ -10,16 +10,14 @@ import {
   FileText,
   Settings,
   PlusCircle,
-  BrainCircuit
+  BrainCircuit,
+  Home
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const menuItems = [
-  { name: 'Dashboard', icon: LayoutDashboard, path: '/' },
-  { name: 'Patients', icon: Users, path: '/patients' },
+  { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
   { name: 'Diagnostic IA', icon: Stethoscope, path: '/predict' },
-  { name: 'Rapports', icon: FileText, path: '/reports' },
-  { name: 'Settings', icon: Settings, path: '/settings' },
 ];
 
 export default function Sidebar() {
@@ -28,16 +26,28 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-sidebar border-r border-border h-screen sticky top-0 flex flex-col pt-8 pb-8">
       <div className="px-6 mb-10 flex items-center gap-3">
-        <div className="bg-primary/10 p-2 rounded-xl">
-          <BrainCircuit className="text-primary w-6 h-6" />
-        </div>
-        <div>
-          <h1 className="text-lg font-black font-outfit text-foreground tracking-tight">Rénal AI</h1>
-          <p className="text-[9px] text-muted font-bold uppercase tracking-widest">Aide au Diagnostic</p>
-        </div>
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div className="bg-primary/10 p-2 rounded-xl">
+            <BrainCircuit className="text-primary w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-lg font-black font-outfit text-foreground tracking-tight">Rénal AI</h1>
+            <p className="text-[9px] text-muted font-bold uppercase tracking-widest">Aide au Diagnostic</p>
+          </div>
+        </Link>
       </div>
 
       <nav className="flex-1 px-4 space-y-1.5">
+        <Link
+          href="/"
+          className={cn(
+            "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group relative text-muted hover:bg-gray-50 hover:text-foreground mb-4",
+          )}
+        >
+          <Home size={20} className="text-muted group-hover:text-primary transition-colors" />
+          <span className="text-sm font-medium">Accueil Public</span>
+        </Link>
+
         {menuItems.map((item) => {
           const isActive = pathname === item.path;
           return (

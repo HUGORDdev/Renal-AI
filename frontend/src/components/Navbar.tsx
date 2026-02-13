@@ -13,7 +13,6 @@ export default function Navbar() {
         { name: 'Accueil', path: '/' },
         { name: 'Notre IA', path: '/predict' },
         { name: 'Cartographie', path: '/map' },
-        { name: 'Ressources', path: '/reports' },
     ];
 
     return (
