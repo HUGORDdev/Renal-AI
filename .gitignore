@@ -36,9 +36,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Data & Models (Optionnel : si vous voulez garder les gros modèles en local)
-# artifacts/*.joblib
-# model_assets/*.joblib
+# Data & Models - Exclus car trop volumineux pour GitHub
+artifacts/*.joblib
+model_assets/*.joblib
+backend/model_assets/*.joblib
 
 # OS
 .vscode/
