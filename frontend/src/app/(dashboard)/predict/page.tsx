@@ -6,18 +6,13 @@ import {
     Activity,
     FlaskConical,
     ClipboardCheck,
-    AlertCircle,
     Lightbulb,
     FileDown,
     BrainCircuit,
     ChevronDown,
-    Save,
-    Stethoscope,
-    Info,
     CheckCircle2,
     ChevronRight,
     ChevronLeft,
-    Search
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -32,8 +27,39 @@ const steps = [
     { title: 'Biologie II', icon: Activity },
 ];
 
+// Libellés français pour les variables techniques renvoyées par l'API (SHAP / feature_importances_)
+const LIBELLES_VARIABLES: Record<string, string> = {
+    'Creat_mg_dL': 'Créatinine (mg/dL)',
+    'Créatinine (mg/L)': 'Créatinine (mg/L)',
+    'eGFR_MDRD': 'Débit de filtration glomérulaire estimé (eGFR MDRD)',
+    'EGFR_MDRD': 'Débit de filtration glomérulaire estimé (eGFR MDRD)',
+    'Urea_mg_dL': 'Urée (mg/dL)',
+    'Urée (g/L)': 'Urée (g/L)',
+    'Ratio_Urea_Creat': 'Ratio urée / créatinine',
+    'Hb (g/dL)': 'Hémoglobine (g/dL)',
+    'Glycémie à jeun (g/L)': 'Glycémie à jeun (g/L)',
+    'Pression Artérielle Systolique (mmHg)': 'Pression artérielle systolique (mmHg)',
+    'Pression Artérielle Diastolique (mmHg)': 'Pression artérielle diastolique (mmHg)',
+    'Hypertension Artérielle': 'Hypertension artérielle',
+    'Diabète': 'Diabète',
+    'Age': 'Âge',
+    'Sexe': 'Genre',
+    'Poids (Kg)': 'Poids (kg)',
+    'Taille (m)': 'Taille (m)',
+    'Protéinurie (g/24h)': 'Protéinurie (g/24h)',
+    'Acide Urique (mg/L)': 'Acide urique (mg/L)',
+    'Ca^2+ (meq/L)': 'Calcium (meq/L)',
+    'Score de Glasgow (/15)': 'Score de Glasgow',
+    'Etat Général (EG) à l\'Admission': 'État général à l\'admission',
+    'Conscience': 'Conscience',
+    'Oedèmes': 'Œdèmes',
+};
+function libelleVariable(cle: string): string {
+    return LIBELLES_VARIABLES[cle] || cle.replace(/_/g, ' ');
+}
+
 export default function PredictPage() {
-    const [currentStep, setCurrentStep] = useState(1); // 1-4: Form, 5: Success Screen, 6: Final Results
+    const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
         Age: 45, Sexe: 'Masculin', Nationalité: 'Béninoise', Profession: 'Employé',
         "Situation Matrimoniale": 'Marié(e)', "Adresse (Département)": 'Littoral',
@@ -70,7 +96,7 @@ export default function PredictPage() {
             if (!res.ok) throw new Error("Erreur serveur");
             const data = await res.json();
             setResult(data);
-            setCurrentStep(5); // Switch to "Diagnostic Prêt" screen
+            setCurrentStep(5);
         } catch (e) {
             console.error(e);
             alert("Erreur de connexion au serveur Rénal AI");
@@ -86,7 +112,6 @@ export default function PredictPage() {
 
     return (
         <div className="space-y-4 max-w-7xl mx-auto pb-10">
-            {/* Header Section (Only if in form) */}
             {currentStep <= 4 && (
                 <div className="flex justify-between items-center px-4">
                     <div>
@@ -98,7 +123,6 @@ export default function PredictPage() {
 
             <div className="grid grid-cols-1 items-start justify-center max-w-4xl mx-auto w-full px-4">
                 <AnimatePresence mode="wait">
-                    {/* FORM STEPS 1-4 */}
                     {currentStep <= 4 && (
                         <motion.div
                             key="form-container"
@@ -107,7 +131,6 @@ export default function PredictPage() {
                             exit={{ opacity: 0, scale: 0.98 }}
                             className="space-y-4"
                         >
-                            {/* Stepper */}
                             <div className="flex justify-between px-4">
                                 {steps.map((s, i) => (
                                     <div key={i} className="flex flex-col items-center gap-3 flex-1 relative">
@@ -152,7 +175,6 @@ export default function PredictPage() {
                                                     </div>
                                                 </div>
                                             )}
-
                                             {currentStep === 2 && (
                                                 <div className="space-y-5">
                                                     <h2 className="text-lg font-black font-outfit inline-flex items-center gap-2">
@@ -167,7 +189,6 @@ export default function PredictPage() {
                                                     </div>
                                                 </div>
                                             )}
-
                                             {currentStep === 3 && (
                                                 <div className="space-y-5">
                                                     <h2 className="text-lg font-black font-outfit inline-flex items-center gap-2">
@@ -182,7 +203,6 @@ export default function PredictPage() {
                                                     </div>
                                                 </div>
                                             )}
-
                                             {currentStep === 4 && (
                                                 <div className="space-y-5">
                                                     <h2 className="text-lg font-black font-outfit inline-flex items-center gap-2">
@@ -212,7 +232,6 @@ export default function PredictPage() {
                                         <ChevronLeft size={16} />
                                         Précédent
                                     </button>
-
                                     {currentStep < 4 ? (
                                         <button
                                             onClick={nextStep}
@@ -242,7 +261,6 @@ export default function PredictPage() {
                         </motion.div>
                     )}
 
-                    {/* SUCCESS SCREEN (STEP 5) */}
                     {currentStep === 5 && (
                         <motion.div
                             key="success-screen"
@@ -273,7 +291,6 @@ export default function PredictPage() {
                         </motion.div>
                     )}
 
-                    {/* FINAL RESULTS (STEP 6) */}
                     {currentStep === 6 && result && (
                         <motion.div
                             key="result-view"
@@ -281,31 +298,44 @@ export default function PredictPage() {
                             animate={{ opacity: 1 }}
                             className="space-y-10 w-full max-w-7xl mx-auto"
                         >
-                            {/* Actions Header */}
                             <div className="flex justify-between items-center bg-white p-6 rounded-3xl border border-border shadow-sm">
                                 <button onClick={handleReset} className="flex items-center gap-2 text-primary font-black hover:bg-primary/5 px-4 py-2 rounded-xl transition-all">
                                     <ChevronLeft size={20} />
-                                    Nouvelle Analyse
+                                    Nouvelle analyse
                                 </button>
                                 <div className="flex items-center gap-4">
                                     <div className="text-right">
-                                        <p className="text-[10px] font-black text-muted uppercase tracking-widest">ID Patient</p>
+                                        <p className="text-[10px] font-black text-muted uppercase tracking-widest">Référence patient</p>
                                         <p className="text-sm font-bold text-slate-900">REF-{Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
                                     </div>
-                                    <button className="flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl shadow-slate-900/20 hover:bg-slate-800 transition-all flex items-center gap-2 active:scale-95">
+                                    <button className="flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl shadow-slate-900/20 hover:bg-slate-800 transition-all active:scale-95">
                                         <FileDown size={22} />
-                                        Exporter PDF
+                                        Exporter en PDF
                                     </button>
                                 </div>
                             </div>
 
+                            <div className="medical-card rounded-2xl p-6 bg-slate-50 border border-slate-100">
+                                <h2 className="text-lg font-black font-outfit text-slate-900 mb-2">Résumé du diagnostic</h2>
+                                <p className="text-sm text-slate-600 leading-relaxed">
+                                    Le modèle a classé ce patient au <strong className="text-slate-900">{result.stage_label}</strong>.
+                                    Le score de risque indique la probabilité d'évolution vers un stade sévère (stade 4 ou 5) ; plus il est bas, plus le pronostic à court terme est favorable.
+                                    Ce résultat est une aide à la décision et doit être interprété par un médecin.
+                                </p>
+                            </div>
+
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
-                                {/* Risk Score Card */}
                                 <div className="lg:col-span-4 medical-card rounded-[3rem] p-10 flex flex-col items-center justify-center text-center relative overflow-hidden bg-white">
-                                    <span className="absolute top-8 right-8 px-4 py-1.5 bg-error/10 text-error text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
-                                        {result.risk_score > 0.7 ? 'Risque Critique' : result.risk_score > 0.4 ? 'Risque Modéré' : 'Risque Faible'}
+                                    <span className={cn(
+                                        "absolute top-8 right-8 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] rounded-full",
+                                        result.risk_score > 0.7 ? "bg-error/10 text-error" : result.risk_score > 0.4 ? "bg-warning/10 text-warning" : "bg-success/10 text-success"
+                                    )}>
+                                        {result.risk_score > 0.7 ? 'Risque élevé' : result.risk_score > 0.4 ? 'Risque modéré' : 'Risque faible'}
                                     </span>
-                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-12">Score de Risque IA</p>
+                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Score de risque IA</p>
+                                    <p className="text-[10px] text-slate-500 max-w-[200px] mb-8">
+                                        Probabilité d'évolution vers un stade sévère (4 ou 5)
+                                    </p>
 
                                     <div className="relative w-64 h-64 flex items-center justify-center">
                                         <svg className="w-full h-full transform -rotate-90 scale-110">
@@ -321,55 +351,60 @@ export default function PredictPage() {
                                         </svg>
                                         <div className="absolute flex flex-col items-center">
                                             <span className="text-5xl font-black font-outfit text-slate-900">{(result.risk_score * 100).toFixed(0)}%</span>
-                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Confiance</span>
+                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">score de risque</span>
                                         </div>
                                     </div>
-                                    <div className="mt-12 bg-slate-50 px-8 py-4 rounded-3xl border border-slate-100 flex flex-col items-center gap-1">
-                                        <p className="text-[10px] font-black text-muted uppercase select-none">Verdict Pathologique</p>
+                                    <div className="mt-10 bg-slate-50 px-8 py-4 rounded-3xl border border-slate-100 flex flex-col items-center gap-1">
+                                        <p className="text-[10px] font-black text-muted uppercase select-none">Stade IRC prédit</p>
                                         <p className="text-xl font-black text-slate-800">{result.stage_label}</p>
                                     </div>
                                 </div>
 
-                                {/* SHAP & Recommendations */}
                                 <div className="lg:col-span-8 space-y-8">
-                                    {/* SHAP Card */}
                                     <div className="medical-card rounded-[3rem] p-10 bg-white min-h-[400px]">
-                                        <div className="flex justify-between items-center mb-10 pb-6 border-b border-slate-50">
-                                            <div>
-                                                <h3 className="text-xl font-black font-outfit flex items-center gap-3">
-                                                    <FlaskConical className="text-primary w-5 h-5" />
-                                                    Détail de l'Interprétation (SHAP)
-                                                </h3>
-                                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Impact des variables sur la décision</p>
-                                            </div>
+                                        <div className="mb-6 pb-6 border-b border-slate-100">
+                                            <h3 className="text-xl font-black font-outfit flex items-center gap-3">
+                                                <FlaskConical className="text-primary w-5 h-5" />
+                                                Interprétation du modèle (SHAP)
+                                            </h3>
+                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">
+                                                Impact des variables sur la décision
+                                            </p>
+                                            <p className="text-sm text-slate-500 mt-3 leading-relaxed">
+                                                Les barres indiquent quelles variables ont le plus influencé la prédiction pour ce patient.
+                                                Une valeur <span className="text-error font-semibold">positive</span> pousse vers un stade plus sévère, une valeur <span className="text-success font-semibold">négative</span> vers un stade moins sévère.
+                                            </p>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                                            {result.top_factors.map((f: any, i: number) => (
+                                            {(result.top_factors || []).map((f: any, i: number) => (
                                                 <div key={i} className="space-y-3 group">
-                                                    <div className="flex justify-between text-[11px] font-black uppercase tracking-wider">
-                                                        <span className="text-slate-600 group-hover:text-primary transition-colors">{f.feature}</span>
-                                                        <span className={f.impact > 0 ? "text-error font-bold" : "text-success font-bold"}>
-                                                            {f.impact > 0 ? "+" : ""}{(f.impact * 100).toFixed(1)}%
+                                                    <div className="flex justify-between text-[11px] font-black uppercase tracking-wider items-baseline gap-2">
+                                                        <span className="text-slate-700 group-hover:text-primary transition-colors flex-1 min-w-0 truncate" title={libelleVariable(f.feature)}>
+                                                            {libelleVariable(f.feature)}
+                                                        </span>
+                                                        <span className={cn("shrink-0 font-bold", f.impact > 0 ? "text-error" : "text-success")}>
+                                                            {f.impact > 0 ? "+" : ""}{(Number(f.impact) * 100).toFixed(1)}%
                                                         </span>
                                                     </div>
                                                     <div className="h-3 bg-slate-100 rounded-full overflow-hidden flex justify-end shadow-inner">
                                                         <div
                                                             className={cn("h-full rounded-full transition-all duration-[1500ms] delay-500", f.impact > 0 ? "bg-error" : "bg-success")}
-                                                            style={{ width: `${Math.abs(f.impact) * 200}%` }}
+                                                            style={{ width: `${Math.min(100, Math.abs(Number(f.impact)) * 200)}%` }}
                                                         />
                                                     </div>
                                                 </div>
                                             ))}
                                         </div>
+                                        {(result.top_factors || []).length === 0 && (
+                                            <p className="text-sm text-slate-500 italic">Aucun détail d'interprétation disponible pour cette prédiction.</p>
+                                        )}
                                     </div>
 
-                                    {/* AI Recommendations */}
                                     <div className="medical-card rounded-[3rem] bg-slate-900 p-12 text-white relative overflow-hidden shadow-2xl">
                                         <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
                                             <BrainCircuit size={300} />
                                         </div>
-
                                         <div className="relative z-10 space-y-10">
                                             <div className="flex justify-between items-center border-b border-white/10 pb-8">
                                                 <div className="flex items-center gap-4">
@@ -377,16 +412,15 @@ export default function PredictPage() {
                                                         <Lightbulb className="w-8 h-8 text-primary shadow-[0_0_15px_rgba(37,99,235,0.5)]" />
                                                     </div>
                                                     <div>
-                                                        <h3 className="text-xl font-black font-outfit">Conseils Cliniques Avancés</h3>
-                                                        <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.4em] mt-1 italic">Engine Gemini Expert v1.5</p>
+                                                        <h3 className="text-xl font-black font-outfit">Recommandations cliniques (IA)</h3>
+                                                        <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.4em] mt-1">Générées par Gemini, basées sur les standards KDIGO</p>
                                                     </div>
                                                 </div>
                                                 <div className="px-6 py-2.5 bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
                                                     <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                                                    KDIGO 2024 VALIDATED
+                                                    Conforme KDIGO 2024
                                                 </div>
                                             </div>
-
                                             <div className="grid grid-cols-1 gap-6">
                                                 {result.ai_recommendations.map((rec: string, i: number) => (
                                                     <div key={i} className="flex gap-4 items-start p-4 rounded-[1.5rem] bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] transition-all group cursor-default">
@@ -409,31 +443,35 @@ export default function PredictPage() {
     );
 }
 
-// --- SUB-COMPONENTS ---
-
 function FormInput({ label, value, onChange, type = "text" }: { label: string, value: any, onChange: (v: any) => void, type?: string }) {
+    const id = `input-${label.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}`;
     return (
         <div className="space-y-1 group">
-            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 group-focus-within:text-primary transition-colors">{label}</label>
+            <label htmlFor={id} className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 group-focus-within:text-primary transition-colors">{label}</label>
             <input
+                id={id}
                 type={type}
                 value={value}
                 onChange={(e) => onChange(type === 'number' ? parseFloat(e.target.value) : e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-1.5 outline-none focus:border-primary focus:bg-white transition-all font-bold text-slate-800 shadow-sm text-sm"
+                aria-label={label}
             />
         </div>
     );
 }
 
 function FormSelect({ label, options, value, onChange }: { label: string, options: string[], value: any, onChange: (v: any) => void }) {
+    const id = `select-${label.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '')}`;
     return (
         <div className="space-y-1 group relative">
-            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 group-focus-within:text-primary transition-colors">{label}</label>
+            <label htmlFor={id} className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 group-focus-within:text-primary transition-colors">{label}</label>
             <div className="relative">
                 <select
+                    id={id}
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-1.5 outline-none focus:border-primary focus:bg-white transition-all font-bold text-slate-800 appearance-none cursor-pointer shadow-sm text-sm"
+                    aria-label={label}
                 >
                     {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                 </select>
