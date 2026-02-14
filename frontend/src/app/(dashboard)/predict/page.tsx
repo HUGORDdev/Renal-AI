@@ -366,7 +366,7 @@ export default function PredictPage() {
                                         <div className="mb-6 pb-6 border-b border-slate-100">
                                             <h3 className="text-xl font-black font-outfit flex items-center gap-3">
                                                 <FlaskConical className="text-primary w-5 h-5" />
-                                                Interprétation du modèle (SHAP)
+                                                Interprétation du modèle
                                             </h3>
                                             <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">
                                                 Impact des variables sur la décision
