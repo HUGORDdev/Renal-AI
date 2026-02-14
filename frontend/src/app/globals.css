@@ -47,6 +47,12 @@ body {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
+/* Carte sombre (ex. recommandations IA) — évite que .medical-card ne force le fond blanc */
+.medical-card.medical-card-dark {
+  background-color: #0f172a;
+  border-color: rgba(51, 65, 85, 0.5);
+}
+
 /* Glass Card */
 .glass-card {
   background-color: rgba(255, 255, 255, 0.1);

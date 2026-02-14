@@ -39,25 +39,28 @@ export default async function DashboardPage() {
                 <StatCard
                     icon={<Users className="text-primary" />}
                     label="Patients Étudiés"
-                    value={stats?.total_patients?.toString() || "308"}
+                    value={stats?.total_patients != null ? String(stats.total_patients) : "..."}
                     subLabel="+12% ce mois"
                 />
                 <StatCard
                     icon={<Zap className="text-amber-500" />}
                     label="Âge Moyen"
-                    value={stats?.avg_age ? `${stats.avg_age} ans` : "..."}
+                    value={stats?.avg_age != null ? `${stats.avg_age} ans` : "..."}
                     subLabel="Répartition Démographique"
                 />
                 <StatCard
                     icon={<TrendingUp className="text-success" />}
                     label="Fonction Rénale Moy."
-                    value={stats?.avg_egfr ? `${Math.round(stats.avg_egfr)}` : "..."}
+                    value={stats?.avg_egfr != null ? String(Math.round(stats.avg_egfr)) : "..."}
                     subLabel="ml/min/1.73m² (eGFR)"
                 />
                 <StatCard
                     icon={<Database className="text-indigo-500" />}
                     label="Prévalence HTA"
-                    value={stats?.major_risk_factors?.[0]?.match(/\((\d+)%\)/)?.[1] + "%" || "..."}
+                    value={(() => {
+                        const pct = stats?.major_risk_factors?.[0]?.match(/\((\d+)%\)/)?.[1];
+                        return pct ? `${pct}%` : "...";
+                    })()}
                     subLabel="Facteur de Risque #1"
                 />
             </section>
@@ -95,7 +98,7 @@ export default async function DashboardPage() {
                         <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
                             <h4 className="text-xs font-black text-muted mb-2 uppercase tracking-widest">Facteurs de Risque Principaux</h4>
                             <div className="space-y-3 mt-2">
-                                {stats?.major_risk_factors?.slice(0, 3).map((factor: string, i: number) => (
+                                {(stats?.major_risk_factors ?? []).slice(0, 3).map((factor: string, i: number) => (
                                     <div key={i} className="flex items-center gap-3 text-sm font-bold text-slate-700 p-2 bg-white rounded-lg border border-slate-100 shadow-sm">
                                         <div className={`w-2.5 h-2.5 rounded-full ${i === 0 ? 'bg-error' : i === 1 ? 'bg-warning' : 'bg-slate-300'}`} />
                                         {factor}

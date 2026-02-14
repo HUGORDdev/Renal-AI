@@ -10,6 +10,7 @@ import {
     FileDown,
     BrainCircuit,
     ChevronDown,
+    Info,
     CheckCircle2,
     ChevronRight,
     ChevronLeft,
@@ -401,36 +402,50 @@ export default function PredictPage() {
                                         )}
                                     </div>
 
-                                    <div className="medical-card rounded-[3rem] bg-slate-900 p-12 text-white relative overflow-hidden shadow-2xl">
-                                        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
+                                    <div className="medical-card rounded-[3rem] p-12 text-slate-900 relative overflow-hidden shadow-2xl bg-white border border-slate-200">
+                                        <div className="absolute top-0 right-0 p-12 opacity-[0.06] pointer-events-none transform translate-x-1/4 -translate-y-1/4 text-slate-900">
                                             <BrainCircuit size={300} />
                                         </div>
                                         <div className="relative z-10 space-y-10">
-                                            <div className="flex justify-between items-center border-b border-white/10 pb-8">
+                                            <div className="flex justify-between items-center border-b border-slate-200 pb-8">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="p-4 bg-primary/20 rounded-2xl backdrop-blur-xl border border-primary/20">
-                                                        <Lightbulb className="w-8 h-8 text-primary shadow-[0_0_15px_rgba(37,99,235,0.5)]" />
+                                                    <div className="p-4 bg-primary/10 rounded-2xl border border-primary/20">
+                                                        <Lightbulb className="w-8 h-8 text-primary" />
                                                     </div>
                                                     <div>
-                                                        <h3 className="text-xl font-black font-outfit">Recommandations cliniques (IA)</h3>
-                                                        <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.4em] mt-1">Générées par Gemini, basées sur les standards KDIGO</p>
+                                                        <h3 className="text-xl font-black font-outfit text-slate-900">Recommandations cliniques (IA)</h3>
+                                                        <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.4em] mt-1">Générées par Gemini, basées sur les standards KDIGO</p>
                                                     </div>
                                                 </div>
-                                                <div className="px-6 py-2.5 bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
+                                                <div className="px-6 py-2.5 bg-primary/5 border border-primary/20 rounded-2xl text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
                                                     <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
                                                     Conforme KDIGO 2024
                                                 </div>
                                             </div>
-                                            <div className="grid grid-cols-1 gap-6">
-                                                {result.ai_recommendations.map((rec: string, i: number) => (
-                                                    <div key={i} className="flex gap-4 items-start p-4 rounded-[1.5rem] bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] transition-all group cursor-default">
-                                                        <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center shrink-0 text-white font-black text-sm group-hover:scale-110 group-hover:bg-primary/20 group-hover:text-primary transition-all duration-300">
-                                                            {i + 1}
-                                                        </div>
-                                                        <p className="text-base leading-relaxed font-medium text-white/90">{rec}</p>
+                                            {(() => {
+                                                const recs = result.ai_recommendations || [];
+                                                const isNotice = (s: string) => /indisponibles|quota|Erreur lors de la génération/i.test(s);
+                                                const noticeIndex = recs.length > 0 && isNotice(recs[0]) ? 0 : -1;
+                                                const listRecs = noticeIndex === 0 ? recs.slice(1) : recs;
+                                                return (
+                                                    <div className="grid grid-cols-1 gap-6">
+                                                        {noticeIndex === 0 && (
+                                                            <div className="flex gap-3 items-start p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900">
+                                                                <Info className="w-5 h-5 shrink-0 mt-0.5 text-amber-600" />
+                                                                <p className="text-sm leading-relaxed font-medium">{recs[0]}</p>
+                                                            </div>
+                                                        )}
+                                                        {listRecs.map((rec: string, i: number) => (
+                                                            <div key={i} className="flex gap-4 items-start p-4 rounded-[1.5rem] bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-all group cursor-default">
+                                                                <div className="w-8 h-8 rounded-xl bg-slate-200 flex items-center justify-center shrink-0 text-slate-900 font-black text-sm group-hover:bg-primary/20 group-hover:text-primary transition-all duration-300">
+                                                                    {i + 1}
+                                                                </div>
+                                                                <p className="text-base leading-relaxed font-medium text-slate-900">{rec}</p>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                ))}
-                                            </div>
+                                                );
+                                            })()}
                                         </div>
                                     </div>
                                 </div>
