@@ -323,7 +323,7 @@ elif menu == "Insights Santé Publique":
 # --- PAGE 3: Cartographie ---
 elif menu == "Cartographie":
     st.header("🗺️ Cartographie des Zones à Risque")
-    st.info("Données géographiques basées sur les patients enregistrés au CNHU/HKM.")
+    st.info("Données géographiques basées sur les patients suspects de CKD.")
     
     # Simuler une carte du Bénin
     m = folium.Map(location=[9.3077, 2.3158], zoom_start=7)

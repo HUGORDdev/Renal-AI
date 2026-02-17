@@ -20,6 +20,8 @@ class DataAnalyzer:
                 "total_patients": 0,
                 "stage_distribution": {},
                 "avg_egfr": 0.0,
+                "avg_age": 0.0,
+                "gender_distribution": {},
                 "major_risk_factors": []
             }
         
@@ -29,19 +31,32 @@ class DataAnalyzer:
         else:
             stage_counts = {}
 
-        # Calcul eGFR moyen (très simplifié pour le dashboard de santé publique)
-        # On peut utiliser une valeur par défaut ou tenter un calcul rapide sur les colonnes numériques
+        # Calcul eGFR moyen
         avg_egfr = 0.0
         if "eGFR_MDRD" in self.df.columns:
             avg_egfr = float(self.df["eGFR_MDRD"].mean())
         elif "Creatinine" in self.df.columns:
             # Fallback très basique si eGFR non calculé
             avg_egfr = 60.0 # Valeur médiane arbitraire
+
+        # Calcul de l'âge moyen
+        avg_age = 0.0
+        if "Age" in self.df.columns:
+            avg_age = float(self.df["Age"].mean())
+
+        # Répartition par sexe
+        gender_distribution = {}
+        if "Sexe" in self.df.columns:
+            gender_counts = self.df["Sexe"].value_counts()
+            for gender, count in gender_counts.items():
+                gender_distribution[str(gender)] = int(count)
         
         return {
             "total_patients": int(len(self.df)),
             "stage_distribution": stage_counts,
             "avg_egfr": float(avg_egfr),
+            "avg_age": float(avg_age),
+            "gender_distribution": gender_distribution,
             "major_risk_factors": [
                 "Hypertension Artérielle (72%)",
                 "Diabète (45%)",
