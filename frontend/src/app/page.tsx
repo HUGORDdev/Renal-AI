@@ -34,7 +34,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed font-medium">
-              Une plateforme d'intelligence artificielle entraînée sur les données du CNHU/HKM pour assister les professionnels de santé dans le dépistage précoce.
+              Une plateforme d'intelligence artificielle entraînée sur des données médicales locales pour assister les professionnels de santé dans le dépistage précoce.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-8">
@@ -57,7 +57,7 @@ export default function LandingPage() {
             {/* Trust Badges */}
             <div className="pt-16 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
               <div className="flex items-center gap-2 justify-center font-bold text-slate-400">
-                <Database size={20} /> Dataset CNHU
+                <Database size={20} /> Dataset Béninois
               </div>
               <div className="flex items-center gap-2 justify-center font-bold text-slate-400">
                 <BrainCircuit size={20} /> XGBoost v2
@@ -110,7 +110,7 @@ export default function LandingPage() {
             </div>
             <span className="font-outfit font-black text-lg text-slate-900">Rénal AI</span>
           </div>
-          <p className="text-slate-400 text-sm font-bold">© 2026 Hackathon AMA Project. Open Source.</p>
+          <p className="text-slate-400 text-sm font-bold">© 2026 Hackathon AMA Project.</p>
         </div>
       </footer>
     </div>

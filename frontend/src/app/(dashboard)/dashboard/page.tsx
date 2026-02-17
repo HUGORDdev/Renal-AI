@@ -30,7 +30,7 @@ export default async function DashboardPage() {
                     <p className="text-muted font-medium">Surveillance en temps réel de l'insuffisance rénale au Bénin</p>
                 </div>
                 <div className="bg-blue-50 text-primary px-4 py-2 rounded-xl text-sm font-bold border border-blue-100">
-                    Données du CNHU/HKM
+                    Données locales & IA Avancée
                 </div>
             </div>
 
