@@ -16,7 +16,7 @@
 - **Rapport de Diagnostic** : (En cours) Génération de rapports PDF complets pour l'intégration dans le dossier patient.
 
 ### 📊 Dashboard de Santé Publique
-- **Visualisation des Datas** : Indicateurs clés (KPIs) basés sur le dataset réel du **CNHU/HKM**.
+- **Visualisation des Datas** : Indicateurs clés (KPIs) basés sur le dataset réel du **local**.
 - **Tendances de Risque** : Analyse de la prévalence des facteurs de risque (Hypertension, Diabète) au sein de la cohorte.
 
 ### 🗺️ Cartographie Géo-Médicale
@@ -57,7 +57,7 @@
 ---
 
 ## 📝 Contexte & Données
-Ce projet utilise les données de santé anonymisées provenant du dataset du **Centre National Hospitalier et Universitaire Hubert Koutoukou Maga (CNHU-HKM)** de Cotonou.
+Ce projet utilise les données de santé anonymisées provenant du dataset d'une institution médicale **local**.
 
 > [!IMPORTANT]
 > CKD-Predict est un outil d'aide à la décision et ne remplace en aucun cas l'expertise clinique d'un médecin néphrologue.
